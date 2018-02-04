@@ -1,0 +1,59 @@
+group 'net.cfiet'
+version '0.1.0'
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:1.5.10.RELEASE"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'application'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+sourceCompatibility = 1.9
+targetCompatibility = 1.9
+
+mainClassName = 'net.cfiet.quandl.proxy.Application'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile('org.codehaus.groovy:groovy-all:2.4.13')
+    compile("org.springframework.boot:spring-boot-starter")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework:spring-web")
+    compile("com.fasterxml.jackson.core:jackson-databind")
+    compile("org.asynchttpclient:async-http-client:2.2.0")
+    compile("org.apache.commons:commons-csv:1.5")
+
+    testCompile("junit:junit")
+}
+
+jar {
+    baseName = 'quandl-api-proxy'
+    version =  "$version"
+
+    manifest {
+        attributes(
+            'Main-Class': 'net.cfiet.quandl.proxy.Application'
+        )
+    }
+}
+
+shadowJar {
+    baseName = 'quandl-api-proxy-full'
+    classifier = null
+    version = "$version"
+}
